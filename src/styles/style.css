@@ -55,7 +55,12 @@ form[name="message-form"] {
     color: #fff;
 }
 
-.user-message-block {
+.browser-finish-block {
+    align-self: flex-start;
+}
+
+.user-message-block,
+.user-finish-block {
     align-self: flex-end;
 }
 
@@ -78,7 +83,9 @@ form[name="message-form"] {
 }
 
 .send:hover {
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
     background-color: rgb(42, 154, 199);
     color: #fff;
+    border: none;
 }
-

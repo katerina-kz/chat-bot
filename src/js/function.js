@@ -1,8 +1,8 @@
 function timeout(message) {
-    const time = randTime(1, 10);
+    const time = randTime(1, 3);
     console.log(time);
     return new Promise(done => {
-      setTimeout(() => done(message), time * 1000);
+        setTimeout(() => done(message), time * 1000);
     });
 }
 
@@ -16,14 +16,15 @@ function randTime(min, max) {
 
 async function randomMessage() {
     const message = [
-      'Шесть миллионеров инсценируют свою смерть для того, чтобы сформировать секретную подпольную организацию',
-      "До свидания",
-      'За его голову назначена цена в 14 миллионов долларов, и армия самых жестоких профессиональных убийц со всего мира открывает на него кровавую охоту.',
-      'Он живет, не зная бед, пока однажды совершенно случайно не портит новое – многомиллионное! – приобретение коллекционера-мафиози.',
-      'Используйте возможность, чтобы задать эксперту вопрос и получить личную консультацию по своему карьерному пути.',
-      'Самоизоляция edition!',
-      'ES2020, дизайнеры и код, палитры, анимации, устаревший Git Flow и видеоплееры'
-    ][randMsg(0, 6)];
+        'Шесть миллионеров инсценируют свою смерть для того, чтобы сформировать секретную подпольную организацию',
+        "До свидания",
+        // 'За его голову назначена цена в 14 миллионов долларов, и армия самых жестоких профессиональных убийц со всего мира открывает на него кровавую охоту.',
+        // 'Он живет, не зная бед, пока однажды совершенно случайно не портит новое – многомиллионное! – приобретение коллекционера-мафиози.',
+        // 'Используйте возможность, чтобы задать эксперту вопрос и получить личную консультацию по своему карьерному пути.',
+        // 'Самоизоляция edition!',
+        // 'ES2020, дизайнеры и код, палитры, анимации, устаревший Git Flow и видеоплееры'
+    ][randMsg(0, 1)];
+    console.log(message);
     return timeout(message);
 }
 
@@ -34,15 +35,16 @@ async function chat() {
         let msg = createMessageDiv('browser-message-block');
         msg.classList.add('browser-message');
         msg.innerHTML = message;
-        
-        if (document.querySelector('.browser-message').innerHTML === "До свидания") {
-        addFinishOfDialog("Браузер закончил диалог");
-        clearTimeout(setTimeout);
-        document.querySelector('.browser-message').classList.add('finish');
+        const browserMsg = document.querySelectorAll('.browser-message');
+        for (let i = 0; i < browserMsg.length; i++) {
+            if (browserMsg[i].innerHTML === "До свидания") {
+                addFinishOfDialog("Браузер закончил диалог");
+                clearTimeout(setTimeout);
+                document.querySelector('.finish-block').classList.add("browser-finish-block");
+                browserMsg[i].classList.add('finish');
+            }
         }
     }
-    
-    
 }
 
 let createMessageDiv = className => {
@@ -52,7 +54,6 @@ let createMessageDiv = className => {
 
     block.classList.add(className);
     block.appendChild(msg);
-    // div.classList.add('message');
     div.appendChild(block);
 
     return msg;
@@ -67,15 +68,16 @@ let addMsgToChat = () => {
     msgOutput.innerHTML = msg;
 
     if (msg === "Ну пока") {
-       addFinishOfDialog("Вы закончили диалог");
-    clearInterval(setTimeout);
-      
+        addFinishOfDialog("Вы закончили диалог");
+        clearInterval(setTimeout);
+        document.querySelector('.finish-block').classList.add("user-finish-block");
+        msgOutput.classList.add('finish');
         return 'finish';
     }
 };
 
 let addListenerToSend = () => {
-    
+
     document.querySelector('.send').addEventListener('click', (e) => {
         e.preventDefault();
         const message = addMsgToChat();
@@ -90,8 +92,3 @@ let addFinishOfDialog = text => {
     finishBlock.classList.add('finish');
     finishBlock.innerHTML = text;
 };
-
-
-
-
-
